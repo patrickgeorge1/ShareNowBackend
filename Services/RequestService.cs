@@ -1,9 +1,9 @@
 ﻿using System;
 using ShareNowBackend.Models;
 
-namespace ShareNowBackend.Services.RequestServices
+namespace ShareNowBackend.Services
 {
-	public class RequestService : IRequestService
+	public class RequestService
     {
         private static Dictionary<long, Request> _requests = new Dictionary<long, Request>();
 

@@ -1,8 +1,4 @@
 ﻿using ShareNowBackend.Services;
-using ShareNowBackend.Services.EventServices;
-using ShareNowBackend.Services.InvitationServices;
-using ShareNowBackend.Services.RequestServices;
-using ShareNowBackend.Services.UserServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,10 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddSingleton<UserService>();
-builder.Services.AddSingleton<IEventService, EventService>();
-builder.Services.AddSingleton<IInvitationService, InvitationService>();
-builder.Services.AddSingleton<IRequestService, RequestService>();
-builder.Services.AddSingleton<IService, Service>();
+builder.Services.AddSingleton<EventService>();
+builder.Services.AddSingleton<InvitationService>();
+builder.Services.AddSingleton<RequestService>();
+builder.Services.AddSingleton<Service>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

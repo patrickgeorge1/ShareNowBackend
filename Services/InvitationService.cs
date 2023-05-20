@@ -1,15 +1,16 @@
 ﻿using System;
 using ShareNowBackend.Models;
 
-namespace ShareNowBackend.Services.InvitationServices
+namespace ShareNowBackend.Services
 {
-	public class InvitationService : IInvitationService
+	public class InvitationService
 	{
-        private static Dictionary<long, Invitation> _invitations = new Dictionary<long, Invitation>();
+        private Dictionary<long, Invitation> _invitations;
 
         public InvitationService()
 		{
-		}
+            _invitations = new Dictionary<long, Invitation>();
+        }
 
         public void AddInvitation(Invitation invitation)
         {

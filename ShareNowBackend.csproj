@@ -14,15 +14,11 @@
   <ItemGroup>
     <None Remove="Models\" />
     <None Remove="Services\" />
-    <None Remove="Services\EventServices\" />
-    <None Remove="Services\RequestServices\" />
-    <None Remove="Services\InvitationServices\" />
+    <None Remove="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Services\" />
-    <Folder Include="Services\EventServices\" />
-    <Folder Include="Services\RequestServices\" />
-    <Folder Include="Services\InvitationServices\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
 </Project>
