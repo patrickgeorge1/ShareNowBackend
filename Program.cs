@@ -1,4 +1,5 @@
 ﻿using ShareNowBackend.Services;
+using ShareNowBackend.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddSingleton<EventService>();
 builder.Services.AddSingleton<InvitationService>();
 builder.Services.AddSingleton<RequestService>();
 builder.Services.AddSingleton<Service>();
+builder.Services.AddSingleton<Helpers> ();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -26,6 +28,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+
+// Add mocks to db
+var helpers = app.Services.GetRequiredService<Helpers>();
+helpers?.populateServicesWithMocks();
 
 app.Run();
 
