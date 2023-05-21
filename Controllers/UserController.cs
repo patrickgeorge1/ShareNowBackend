@@ -17,16 +17,14 @@ namespace ShareNowBackend.Controllers;
 public class UserController : ControllerBase
 {
     private readonly UserService _userService;
-    private readonly EventService _eventsService;
-    private readonly InvitationService _invitationService;
-    private readonly RequestService _requestService;
     private readonly ILogger<UserController> _logger;
 
-    public UserController(ILogger<UserController> logger, UserService userService, EventService eventsService, InvitationService invitationService, RequestService requestService)
+    public UserController(UserService userService, ILogger<UserController> logger)
     {
-        _logger = logger;
         _userService = userService;
+        _logger = logger;
     }
+
 
     // GET: api/User/5
     [HttpGet("{id}")]

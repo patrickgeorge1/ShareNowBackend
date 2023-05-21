@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShareNowBackend.Models;
 using ShareNowBackend.Services;
 
 namespace ShareNowBackend.Controllers;
@@ -25,12 +26,26 @@ public class InvitationController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetInvitationById(long id)
     {
-        return Ok();
+        _logger.LogInformation("GetInvitation {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
+        Invitation? invitation = _invitationService.GetInvitation(id);
+        if (invitation != null)
+        {
+            return Ok(invitation);
+        }
+
+        return NotFound();
     }
 
     [HttpPost]
     public IActionResult CreateInvitation(JsonElement invitationJson)
     {
-        return Ok();
+        _logger.LogInformation("CreateInvitation {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
+        Invitation? invitation = _invitationService.DeserializeInvitation(invitationJson);
+        if (invitation != null)
+        {
+            _invitationService.AddInvitation(invitation);
+            return Ok(invitation);
+        }
+        return BadRequest("Invalid input");
     }
 }

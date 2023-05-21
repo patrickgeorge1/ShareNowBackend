@@ -10,9 +10,9 @@ public record Invitation
     public long Id { get; } = ++_idCounter;
     public long EventId { get; init; }
     public long DonatorId { get; init; }
-    public string QRcode { get; init; }
+    public string QRcode { get; }
 
-    public Invitation(long eventId, long donatorId, string qrCode)
+    public Invitation(long eventId, long donatorId)
     {
         this.EventId = eventId;
         this.DonatorId = donatorId;

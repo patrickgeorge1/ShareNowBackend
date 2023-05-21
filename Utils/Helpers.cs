@@ -9,12 +9,16 @@ public class Helpers
 
 	private UserService _userService;
 	private EventService _eventService;
+    private InvitationService _invitationService;
+    private RequestService _requestService;
     private readonly ILogger<Helpers> _logger;
 
-    public Helpers(UserService userService, EventService eventService, ILogger<Helpers> logger)
+    public Helpers(UserService userService, EventService eventService, InvitationService invitationService, RequestService requestService, ILogger<Helpers> logger)
     {
         _userService = userService;
         _eventService = eventService;
+        _invitationService = invitationService;
+        _requestService = requestService;
         _logger = logger;
     }
 
@@ -56,6 +60,38 @@ public class Helpers
                 posterImageUrl: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.tiktok.com%2Fdiscover%2FGateste-cu-liviu-dragnea&psig=AOvVaw2LgchEVI2ZeSl_QfrtNS_c&ust=1684711101416000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCODT0IeEhf8CFQAAAAAdAAAAABAw"
             ),
         }.ForEach(@event => _eventService.AddEvent(@event));
+
+
+        new List<Invitation>()
+        {
+            // Alex donates invides to event 1
+            new Invitation(
+                eventId: 1,
+                donatorId: 2
+            ),
+
+            // Patrick donates invides to event 2
+            new Invitation(
+                eventId: 2,
+                donatorId: 1
+            ),
+        }.ForEach(invitation => _invitationService.AddInvitation(invitation));
+
+
+        new List<Request>()
+        {
+            // Radu requests participation from Alex for event 1
+            new Request(
+                invitationId: 1,
+                requesterId: 3
+            ),
+
+            // Alin requests participation from Patrick for event 1
+            new Request(
+                invitationId: 2,
+                requesterId: 4
+            ),
+        }.ForEach(request => _requestService.AddRequest(request));
     }
 }
 
