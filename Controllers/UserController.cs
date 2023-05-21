@@ -40,6 +40,14 @@ public class UserController : ControllerBase
         return NotFound();
     }
 
+    [HttpGet]
+    public IActionResult GetAllUsers(long id)
+    {
+        _logger.LogInformation("GetAllUsers {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
+        List<User> users = _userService.GetAllUsers().Values.ToList();
+        return Ok(users);
+    }
+
     // POST: api/User
     [HttpPost]
     public IActionResult CreateUser(JsonElement userJson)

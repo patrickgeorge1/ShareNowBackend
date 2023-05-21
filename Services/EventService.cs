@@ -17,6 +17,11 @@ public class EventService
         _events = new Dictionary<long, Event>();
     }
 
+    public Dictionary<long, Event> GetAllEvents()
+    {
+        return _events;
+    }
+
     public void AddEvent(Event toBeCreatedEvent)
     {
         _events.Add(toBeCreatedEvent.Id, toBeCreatedEvent);

@@ -36,6 +36,14 @@ public class EventController : ControllerBase
         return NotFound();
     }
 
+    [HttpGet]
+    public IActionResult GetAllEvents()
+    {
+        _logger.LogInformation("GetAllEvents {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
+        List<Event> events = _eventService.GetAllEvents().Values.ToList();
+        return Ok(events);
+    }
+
     [HttpPost]
     public IActionResult CreateEvent(JsonElement eventJson)
     {

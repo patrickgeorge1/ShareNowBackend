@@ -38,6 +38,11 @@ public class UserService
         }
     }
 
+    public Dictionary<long, User> GetAllUsers()
+    {
+        return _users;
+    }
+
     public User? DeserializeUser(JsonElement userJson)
     {
         try

@@ -36,6 +36,14 @@ public class InvitationController : ControllerBase
         return NotFound();
     }
 
+    [HttpGet]
+    public IActionResult GetAllInvitations()
+    {
+        _logger.LogInformation("GetAllInvitations {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
+        List<Invitation> invitations = _invitationService.GetAllInvitations().Values.ToList();
+        return Ok(invitations);
+    }
+
     [HttpPost]
     public IActionResult CreateInvitation(JsonElement invitationJson)
     {

@@ -1,0 +1,398 @@
+{
+	"info": {
+		"_postman_id": "f284809c-a182-4702-8572-5a72e5efaf2c",
+		"name": "ShareNow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23933546"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"Name\": \"Marcel\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5073/api/User",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5073/api/User/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"User",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5073/api/User",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"User"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Event",
+			"item": [
+				{
+					"name": "Create Event",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"AuthorId\": 3,\n  \"Name\": \"Nebunia lui Juvel\",\n  \"Description\": \"Ne distram cu Mr. Juve\",\n  \"Location\": \"Hanul lui Alex\",\n  \"PosterImageUrl\": \"https://www.google.com/url?sa=i&url=https%3A%2F%2Fopen.spotify.com%2Fartist%2F3Mpgf08uPOZUYMnFDRSRV8&psig=AOvVaw0KqnMzci3JHIrklAQ0vuuH&ust=1684709725950000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCNjv7ff-hP8CFQAAAAAdAAAAABAE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5073/api/Event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"Event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Event",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5073/api/Event/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"Event",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Events",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5073/api/Event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"Event"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Invitation",
+			"item": [
+				{
+					"name": "Create Invitation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"EventId\": 3,\n  \"DonorId\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5073/api/Invitation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"Invitation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Invitation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5073/api/Invitation/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"Invitation",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Invitations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5073/api/Invitation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"Invitation"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Request",
+			"item": [
+				{
+					"name": "Create Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"InvitationId\": 3,\n  \"RequesterId\": 6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5073/api/Request",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"Request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5073/api/Request/accept/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"Request",
+								"accept",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5073/api/Request/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"Request",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Requests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5073/api/Request",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"Request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Accepted Requests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5073/api/Request/accepted/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"Request",
+								"accepted",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Pending Requests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5073/api/Request/pending/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"Request",
+								"pending",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Requests My Invitations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5073/api/Request/requested/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5073",
+							"path": [
+								"api",
+								"Request",
+								"requested",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

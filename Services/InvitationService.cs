@@ -33,6 +33,11 @@ public class InvitationService
         }
     }
 
+    public Dictionary<long, Invitation> GetAllInvitations()
+    {
+        return _invitations;
+    }
+
     public Invitation? DeserializeInvitation(JsonElement userJson)
     {
         try

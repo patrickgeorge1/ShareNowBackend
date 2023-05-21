@@ -46,7 +46,7 @@ public class Helpers
                 posterImageUrl: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fde.wikipedia.org%2Fwiki%2FDelia_Matache&psig=AOvVaw3asJsu4_g0ysS7Vnlap7_v&ust=1684711007976000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCIj4j9uDhf8CFQAAAAAdAAAAABAE"
             ),
             new Event(
-                authorId: 3,
+                authorId: 1,
                 name: "Leon Danaila, sculptorul de creiere",
                 description: "Al treilea cel mai bun neurochirurg din lume este roman si vine sa ne vorbeasca",
                 location: "PR001",

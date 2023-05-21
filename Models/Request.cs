@@ -8,7 +8,7 @@ public record Request
     public long Id { get; } = ++_idCounter;
     public long InvitationId { get; init; }
     public long RequesterId { get; init; }
-    public RequestStatus Status { get; init; }
+    public RequestStatus Status { get; set; }
 
     public Request(long invitationId, long requesterId)
     {
@@ -16,5 +16,7 @@ public record Request
         RequesterId = requesterId;
         Status = RequestStatus.PENDING;
     }
+
+
 }
 
