@@ -4,29 +4,33 @@ using System.Text.Json;
 using System.Xml.Linq;
 using ShareNowBackend.Controllers;
 using ShareNowBackend.Models;
+using ShareNowBackend.Repositories;
 
 namespace ShareNowBackend.Services;
 
 public class UserService
 {
-    private Dictionary<long, User> _users;
+    private Dictionary<string, User> _users;
+    private UserRepository _userRepository;
 
     private readonly ILogger<UserController> _logger;
 
 
-    public UserService(ILogger<UserController> logger)
+    public UserService(ILogger<UserController> logger, UserRepository userRepository)
 	{
         _logger = logger;
-        _users = new Dictionary<long, User>();
+        _users = new Dictionary<string, User>();
+        _userRepository = userRepository;
 
     }
 
-    public void AddUser(User user)
+    public async Task<User> AddUser(User user)
     {
-        _users[user.Id] = user;
+        //_users[user.Id] = user;
+        return await _userRepository.AddAsync(user);
     }
 
-    public User? GetUser(long id)
+    public User? GetUser(string id)
     {
         if (_users.TryGetValue(id, out User? user))
         {
@@ -38,7 +42,7 @@ public class UserService
         }
     }
 
-    public Dictionary<long, User> GetAllUsers()
+    public Dictionary<string, User> GetAllUsers()
     {
         return _users;
     }

@@ -2,32 +2,35 @@
 using System.Text.Json;
 using ShareNowBackend.Controllers;
 using ShareNowBackend.Models;
+using ShareNowBackend.Repositories;
 
 namespace ShareNowBackend.Services;
 
 public class EventService
 {
-    private static Dictionary<long, Event> _events;
+    private static Dictionary<string, Event> _events;
 
     private readonly ILogger<EventService> _logger;
+    private readonly EventRepository _eventRepository;
 
-    public EventService(ILogger<EventService> logger)
+    public EventService(ILogger<EventService> logger, EventRepository er)
     {
         _logger = logger;
-        _events = new Dictionary<long, Event>();
+        _events = new Dictionary<string, Event>();
+        _eventRepository = er;
     }
 
-    public Dictionary<long, Event> GetAllEvents()
+    public Dictionary<string, Event> GetAllEvents()
     {
         return _events;
     }
 
-    public void AddEvent(Event toBeCreatedEvent)
+    public async Task<Event> AddEvent(Event toBeCreatedEvent)
     {
-        _events.Add(toBeCreatedEvent.Id, toBeCreatedEvent);
+        return await _eventRepository.AddAsync(toBeCreatedEvent);
     }
 
-    public Event? GetEvent(long id)
+    public Event? GetEvent(string id)
     {
         if (_events.TryGetValue(id, out Event? @event))
         {
@@ -43,7 +46,7 @@ public class EventService
     {
         try
         {
-            long authorId = eventJson.GetProperty("AuthorId").GetInt64();
+            string authorId = eventJson.GetProperty("AuthorId").GetString();
             string name = eventJson.GetProperty("Name").GetString() ?? throw new Exception("Could not deserialize json to event.");
             string description = eventJson.GetProperty("Description").GetString() ?? throw new Exception("Could not deserialize json to event.");
             string location = eventJson.GetProperty("Location").GetString() ?? throw new Exception("Could not deserialize json to event.");

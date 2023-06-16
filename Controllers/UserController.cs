@@ -28,7 +28,7 @@ public class UserController : ControllerBase
 
     // GET: api/User/5
     [HttpGet("{id}")]
-    public IActionResult GetUserById(long id)
+    public IActionResult GetUserById(string id)
     {
         _logger.LogInformation("GetUser {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
         User? user = _userService.GetUser(id);
@@ -50,14 +50,14 @@ public class UserController : ControllerBase
 
     // POST: api/User
     [HttpPost]
-    public IActionResult CreateUser(JsonElement userJson)
+    public async Task<IActionResult> CreateUser(JsonElement userJson)
     {
         _logger.LogInformation("CreateUser {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
         User? newUser = _userService.DeserializeUser(userJson);
         if (newUser != null)
         {
-            _userService.AddUser(newUser);
-            return Ok(newUser);
+            var resp = await _userService.AddUser(newUser);
+            return Ok(resp);
         }
         return BadRequest("Invalid input");            
     }

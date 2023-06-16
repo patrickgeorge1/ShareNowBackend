@@ -4,6 +4,14 @@
 Share your invitations for events with other people.
 
 
+
+#### Setup
+
+1. Download private key from [here](https://console.firebase.google.com/project/sharenow-a3665/settings/serviceaccounts/adminsdk)
+2. Upadate the constructor of `./Repositories/IBaseRepository.cs` by changing variable `filepath` to point to the location of the downloaded private key.
+
+> Important: Don't add it to Github, use .gitignore !!!!!
+
 #### Frontend Package
 
 https://github.com/alinvelea27/ShareIt

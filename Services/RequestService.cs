@@ -3,26 +3,28 @@ using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using ShareNowBackend.Controllers;
 using ShareNowBackend.Models;
+using ShareNowBackend.Repositories;
 
 namespace ShareNowBackend.Services;
 
 public class RequestService
 {
-    private Dictionary<long, Request> _requests;
+    private Dictionary<string, Request> _requests;
     private readonly ILogger<UserController> _logger;
-
-    public RequestService(ILogger<UserController> logger)
+    private RequestRepository _requestRepository;
+    public RequestService(ILogger<UserController> logger, RequestRepository requestRepository)
     {
         _logger = logger;
-        _requests = new Dictionary<long, Request>();
+        _requests = new Dictionary<string, Request>();
+        _requestRepository = requestRepository;
     }
 
-    public void AddRequest(Request request)
+    public async Task<Request> AddRequest(Request request)
     {
-        _requests.Add(request.Id, request);
+        return await _requestRepository.AddAsync(request);
     }
 
-    public Request? GetRequest(long id)
+    public Request? GetRequest(string id)
     {
         if (_requests.TryGetValue(id, out Request? request))
         {
@@ -34,12 +36,12 @@ public class RequestService
         }
     }
 
-    public Dictionary<long, Request> GetAllRequests()
+    public Dictionary<string, Request> GetAllRequests()
     {
         return _requests;
     }
 
-    public Request? AcceptRequest(long id)
+    public Request? AcceptRequest(string id)
     {
         if (_requests.TryGetValue(id, out Request? request))
         {
@@ -53,7 +55,7 @@ public class RequestService
         }
     }
 
-    public List<Request> GetAcceptedRequests(long userId)
+    public List<Request> GetAcceptedRequests(string userId)
     {
         List<Request> result = new();
         IEnumerable<Request> myAcceptedRequests =
@@ -64,7 +66,7 @@ public class RequestService
         return result;
     }
 
-    public List<Request> GetPendingRequests(long userId)
+    public List<Request> GetPendingRequests(string userId)
     {
         List<Request> result = new();
         IEnumerable<Request> myPendingRequests =
@@ -79,8 +81,8 @@ public class RequestService
     {
         try
         {
-            long invitationId = requestJson.GetProperty("InvitationId").GetInt64();
-            long requesterId = requestJson.GetProperty("RequesterId").GetInt64();
+            string invitationId = requestJson.GetProperty("InvitationId").GetString();
+            string requesterId = requestJson.GetProperty("RequesterId").GetString();
             return new Request(invitationId, requesterId);
         }
         catch (Exception e)

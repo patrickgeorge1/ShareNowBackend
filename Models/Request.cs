@@ -1,16 +1,28 @@
-﻿using System;
+﻿using Google.Cloud.Firestore;
+using ShareNowBackend.Repositories;
+using System.Text.Json.Serialization;
+
 namespace ShareNowBackend.Models;
 
-public record Request
+[FirestoreData]
+public record Request : IBaseFirestoreData
 {
-    private static long _idCounter = 0;
+    [JsonConstructor]
+    public Request() { }
 
-    public long Id { get; } = ++_idCounter;
-    public long InvitationId { get; init; }
-    public long RequesterId { get; init; }
+    [FirestoreProperty]
+    public string Id { get; set; }
+
+    [FirestoreProperty]
+    public string InvitationId { get; init; }
+
+    [FirestoreProperty]
+    public string RequesterId { get; init; }
+
+    [FirestoreProperty]
     public RequestStatus Status { get; set; }
 
-    public Request(long invitationId, long requesterId)
+    public Request(string invitationId, string requesterId)
     {
         InvitationId = invitationId;
         RequesterId = requesterId;

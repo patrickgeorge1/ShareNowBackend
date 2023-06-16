@@ -1,18 +1,32 @@
-﻿using System;
+﻿using Google.Cloud.Firestore;
+using ShareNowBackend.Repositories;
+using System;
+using System.Text.Json.Serialization;
+
 namespace ShareNowBackend.Models;
 
-public record User
+[FirestoreData]
+public record User : IBaseFirestoreData
 {
-    private static long _idCounter = 0;
+    [JsonConstructor]
+    public User()
+    {
+        FriendIds = new List<string>();
+    }
 
-    public long Id { get; } = ++_idCounter;
+    [FirestoreProperty]
+    public string Id { get; set; }
+
+    [FirestoreProperty]
     public string Name { get; init; }
-    public List<long> FriendIds { get; init; }
+
+    [FirestoreProperty]
+    public List<string> FriendIds { get; init; }
 
     public User(string name)
     {
         Name = name;
-        FriendIds = new List<long>();
+        FriendIds = new List<string>();
     }
 }
 

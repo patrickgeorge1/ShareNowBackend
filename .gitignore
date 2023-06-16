@@ -527,4 +527,6 @@ FodyWeavers.xsd
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
+sharenow-a3665-firebase-adminsdk-iw8th-7bb863e448.json
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,aspnetcore

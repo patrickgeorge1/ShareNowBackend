@@ -1,18 +1,31 @@
 ﻿using System;
+using System.Text.Json.Serialization;
+using Google.Cloud.Firestore;
+using ShareNowBackend.Repositories;
 using ShareNowBackend.Utils;
 
 namespace ShareNowBackend.Models;
 
-public record Invitation
-{
-    private static long _idCounter = 0;
 
-    public long Id { get; } = ++_idCounter;
-    public long EventId { get; init; }
-    public long DonatorId { get; init; }
+[FirestoreData]
+public record Invitation : IBaseFirestoreData
+{
+    [JsonConstructor]
+    public Invitation() { }
+
+    [FirestoreProperty]
+    public string Id { get; set; }
+
+    [FirestoreProperty]
+    public string EventId { get; init; }
+
+    [FirestoreProperty]
+    public string DonatorId { get; init; }
+
+    [FirestoreProperty]
     public string QRcode { get; }
 
-    public Invitation(long eventId, long donatorId)
+    public Invitation(string eventId, string donatorId)
     {
         this.EventId = eventId;
         this.DonatorId = donatorId;

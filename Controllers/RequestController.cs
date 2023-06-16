@@ -30,7 +30,7 @@ public class RequestController : ControllerBase
 
     // GET: api/Request/5
     [HttpGet("{id}")]
-    public IActionResult GetRequestById(long id)
+    public IActionResult GetRequestById(string id)
     {
         _logger.LogInformation("GetRequest {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
         Request? request = _requestService.GetRequest(id);
@@ -52,7 +52,7 @@ public class RequestController : ControllerBase
 
     // current user accepted requests
     [HttpGet("accepted/{userId:long}")]
-    public IActionResult GetApprovedEventsByUserId(long userId)
+    public IActionResult GetApprovedEventsByUserId(string userId)
     {
         _logger.LogInformation("GetAcceptedRequests {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
         List<Request> acceptedRequests = _requestService.GetAcceptedRequests(userId);
@@ -61,7 +61,7 @@ public class RequestController : ControllerBase
 
     // current user pending requests
     [HttpGet("pending/{userId:long}")]
-    public IActionResult GetPendingEventsByUserId(long userId)
+    public IActionResult GetPendingEventsByUserId(string userId)
     {
         _logger.LogInformation("GetPendingRequests {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
         List<Request> pendingRequests = _requestService.GetPendingRequests(userId);
@@ -70,7 +70,7 @@ public class RequestController : ControllerBase
 
     // current user requests from other users
     [HttpGet("requested/{userId:long}")]
-    public IActionResult GetRequestedEventsByUserId(long userId)
+    public IActionResult GetRequestedEventsByUserId(string userId)
     {
         _logger.LogInformation("GetRequestedRequests {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
         List<Request> requestedRequests = _service.GetRequestedRequests(userId);
@@ -79,21 +79,20 @@ public class RequestController : ControllerBase
 
     // POST: api/Request
     [HttpPost]
-    public IActionResult CreateRequest(JsonElement userJson)
+    public async Task<IActionResult> CreateRequest(JsonElement userJson)
     {
         _logger.LogInformation("CreateRequest {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
         Request? request = _requestService.DeserializeRequest(userJson);
         if (request != null)
         {
-            _requestService.AddRequest(request);
-            return Ok(request);
+            return Ok(await _requestService.AddRequest(request));
         }
         return BadRequest("Invalid input");
     }
 
     [HttpPost]
     [Route("accept/{id:long}")]
-    public IActionResult AcceptRequest(long id)
+    public IActionResult AcceptRequest(string id)
     {
         _logger.LogInformation("AcceptRequest {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
         Request? request = _requestService.AcceptRequest(id);

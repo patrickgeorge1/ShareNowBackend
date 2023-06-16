@@ -24,7 +24,7 @@ public class EventController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetEventById(long id)
+    public IActionResult GetEventById(string id)
     {
         _logger.LogInformation("GetEvent {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
         Event? @event = _eventService.GetEvent(id);
@@ -45,14 +45,13 @@ public class EventController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateEvent(JsonElement eventJson)
+    public async Task<IActionResult> CreateEvent(JsonElement eventJson)
     {
         _logger.LogInformation("CreateEvent {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
         Event? newEvent = _eventService.DeserializeEvent(eventJson);
         if (newEvent != null)
         {
-            _eventService.AddEvent(newEvent);
-            return Ok(newEvent);
+            return Ok(await _eventService.AddEvent(newEvent));
         }
         return BadRequest("Invalid input");
     }

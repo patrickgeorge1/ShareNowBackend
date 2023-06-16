@@ -24,7 +24,7 @@ public class InvitationController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetInvitationById(long id)
+    public IActionResult GetInvitationById(string id)
     {
         _logger.LogInformation("GetInvitation {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
         Invitation? invitation = _invitationService.GetInvitation(id);
@@ -45,14 +45,13 @@ public class InvitationController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateInvitation(JsonElement invitationJson)
+    public async Task<IActionResult> CreateInvitation(JsonElement invitationJson)
     {
         _logger.LogInformation("CreateInvitation {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
         Invitation? invitation = _invitationService.DeserializeInvitation(invitationJson);
         if (invitation != null)
         {
-            _invitationService.AddInvitation(invitation);
-            return Ok(invitation);
+            return Ok(await _invitationService.AddInvitation(invitation));
         }
         return BadRequest("Invalid input");
     }

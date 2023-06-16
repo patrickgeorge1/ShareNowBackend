@@ -21,16 +21,16 @@ public class Service
     }
 
 
-    public List<Request> GetRequestedRequests(long userId)
+    public List<Request> GetRequestedRequests(string userId)
     {
         List<Request> result = new();
 
         // get all invitation where user is donor
-        IEnumerable<long> myInvitationsQuery =
+        IEnumerable<string> myInvitationsQuery =
             from invitationKV in _invitationService.GetAllInvitations()
             where invitationKV.Value.DonatorId == userId
             select invitationKV.Value.Id;
-        HashSet<long> myInvitationsIds = myInvitationsQuery.ToHashSet();
+        HashSet<string> myInvitationsIds = myInvitationsQuery.ToHashSet();
 
         // get all pending requests for the above invitations
         IEnumerable<Request> myRequestedRequests =

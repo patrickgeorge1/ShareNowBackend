@@ -1,4 +1,5 @@
-﻿using ShareNowBackend.Services;
+﻿using ShareNowBackend.Repositories;
+using ShareNowBackend.Services;
 using ShareNowBackend.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,14 @@ builder.Services.AddSingleton<EventService>();
 builder.Services.AddSingleton<InvitationService>();
 builder.Services.AddSingleton<RequestService>();
 builder.Services.AddSingleton<Service>();
-builder.Services.AddSingleton<Helpers> ();
+builder.Services.AddSingleton<Helpers>();
+
+// Add repositories to the container.
+
+builder.Services.AddSingleton<UserRepository>();
+builder.Services.AddSingleton<EventRepository>();
+builder.Services.AddSingleton<InvitationRepository>();
+builder.Services.AddSingleton<RequestRepository>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -29,9 +37,9 @@ if (app.Environment.IsDevelopment())
 
 app.MapControllers();
 
-// Add mocks to db
+// Add mocks to db. Uncomment LINE 42 only if db is empty
 var helpers = app.Services.GetRequiredService<Helpers>();
-helpers?.populateServicesWithMocks();
+//helpers?.populateServicesWithMocks();
 
 app.Run();
 

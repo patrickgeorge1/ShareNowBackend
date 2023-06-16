@@ -2,26 +2,28 @@
 using System.Text.Json;
 using ShareNowBackend.Controllers;
 using ShareNowBackend.Models;
+using ShareNowBackend.Repositories;
 
 namespace ShareNowBackend.Services;
 
 public class InvitationService
 {
-    private Dictionary<long, Invitation> _invitations;
+    private Dictionary<string, Invitation> _invitations;
     private readonly ILogger<InvitationService> _logger;
-
-    public InvitationService(ILogger<InvitationService> logger)
+    private InvitationRepository _invitationRepository;
+    public InvitationService(ILogger<InvitationService> logger, InvitationRepository ir)
 	{
-        _invitations = new Dictionary<long, Invitation>();
+        _invitations = new Dictionary<string, Invitation>();
         _logger = logger;
+        _invitationRepository = ir;
     }
 
-    public void AddInvitation(Invitation invitation)
+    public async Task<Invitation> AddInvitation(Invitation invitation)
     {
-        _invitations.Add(invitation.Id, invitation);
+        return await _invitationRepository.AddAsync(invitation);
     }
 
-    public Invitation? GetInvitation(long id)
+    public Invitation? GetInvitation(string id)
     {
         if (_invitations.TryGetValue(id, out Invitation? invitation))
         {
@@ -33,7 +35,7 @@ public class InvitationService
         }
     }
 
-    public Dictionary<long, Invitation> GetAllInvitations()
+    public Dictionary<string, Invitation> GetAllInvitations()
     {
         return _invitations;
     }
@@ -42,8 +44,8 @@ public class InvitationService
     {
         try
         {
-            long eventId = userJson.GetProperty("EventId").GetInt64();
-            long donorId = userJson.GetProperty("DonorId").GetInt64();
+            string eventId = userJson.GetProperty("EventId").GetString();
+            string donorId = userJson.GetProperty("DonorId").GetString();
             return new Invitation(eventId, donorId);
         }
         catch (Exception e)
