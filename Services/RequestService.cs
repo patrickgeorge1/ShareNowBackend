@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json;
+using Google.Cloud.Firestore;
 using Microsoft.Extensions.Logging;
 using ShareNowBackend.Controllers;
 using ShareNowBackend.Models;
@@ -24,57 +25,54 @@ public class RequestService
         return await _requestRepository.AddAsync(request);
     }
 
-    public Request? GetRequest(string id)
+    public async Task<Request?> GetRequest(string id)
     {
-        if (_requests.TryGetValue(id, out Request? request))
+        var query = new Request()
         {
-            return request;
-        }
-        else
-        {
-            return null;
-        }
+            Id = id
+        };
+        return await _requestRepository.GetAsync(query);
     }
 
-    public Dictionary<string, Request> GetAllRequests()
+    public async Task<List<Request>> GetAllRequests()
     {
-        return _requests;
+        return await _requestRepository.GetAllAsync();
     }
 
-    public Request? AcceptRequest(string id)
+    public async Task DeleteRequest(string id)
     {
-        if (_requests.TryGetValue(id, out Request? request))
+        var query = new Request()
+        {
+            Id = id
+        };
+        await _requestRepository.DeleteAsync(query);
+    }
+
+
+    public async Task<Request?> AcceptRequest(string id)
+    {
+        var queryGet = new Request()
+        {
+            Id = id
+        };
+        var request = await _requestRepository.GetAsync(queryGet);
+        if (request != null)
         {
             request.Status = RequestStatus.APPROVED;
-            _requests[request.Id] = request;
-            return request;
+            request = await _requestRepository.UpdateAsync(request);
         }
-        else
-        {
-            return null;
-        }
+
+        return request;
     }
 
-    public List<Request> GetAcceptedRequests(string userId)
+    public async Task<List<Request>> GetAcceptedRequests(string userId)
     {
-        List<Request> result = new();
-        IEnumerable<Request> myAcceptedRequests =
-            from reqKV in _requests
-            where reqKV.Value.RequesterId == userId && reqKV.Value.Status == RequestStatus.APPROVED
-            select reqKV.Value;
-        result.AddRange(myAcceptedRequests);
-        return result;
+        return await _requestRepository.GetRequestsByStatus(RequestStatus.APPROVED);
     }
 
-    public List<Request> GetPendingRequests(string userId)
+    public async Task<List<Request>> GetPendingRequests(string userId)
     {
-        List<Request> result = new();
-        IEnumerable<Request> myPendingRequests =
-            from reqKV in _requests
-            where reqKV.Value.RequesterId == userId && reqKV.Value.Status == RequestStatus.PENDING
-            select reqKV.Value;
-        result.AddRange(myPendingRequests);
-        return result;
+        return await _requestRepository.GetRequestsByStatus(RequestStatus.PENDING);
     }
 
     public Request? DeserializeRequest(JsonElement requestJson)

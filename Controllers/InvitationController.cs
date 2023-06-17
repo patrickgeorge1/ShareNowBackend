@@ -24,10 +24,10 @@ public class InvitationController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetInvitationById(string id)
+    public async Task<IActionResult> GetInvitationById(string id)
     {
         _logger.LogInformation("GetInvitation {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
-        Invitation? invitation = _invitationService.GetInvitation(id);
+        Invitation? invitation = await _invitationService.GetInvitation(id);
         if (invitation != null)
         {
             return Ok(invitation);
@@ -37,10 +37,10 @@ public class InvitationController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAllInvitations()
+    public async Task<IActionResult> GetAllInvitations()
     {
         _logger.LogInformation("GetAllInvitations {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
-        List<Invitation> invitations = _invitationService.GetAllInvitations().Values.ToList();
+        List<Invitation> invitations = await _invitationService.GetAllInvitations();
         return Ok(invitations);
     }
 

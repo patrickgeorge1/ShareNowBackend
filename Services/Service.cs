@@ -21,24 +21,23 @@ public class Service
     }
 
 
-    public List<Request> GetRequestedRequests(string userId)
+    public async Task<List<Request>> GetRequestedRequests(string userId)
     {
         List<Request> result = new();
 
-        // get all invitation where user is donor
-        IEnumerable<string> myInvitationsQuery =
-            from invitationKV in _invitationService.GetAllInvitations()
-            where invitationKV.Value.DonatorId == userId
-            select invitationKV.Value.Id;
-        HashSet<string> myInvitationsIds = myInvitationsQuery.ToHashSet();
+        // get all ids of invitations owned by userId
+        HashSet<string> invitationIdsOfUser = 
+            (await _invitationService.GetAllInvitationsFromDonorId(userId))
+            .Select(i => i.Id)
+            .ToHashSet();
 
         // get all pending requests for the above invitations
         IEnumerable<Request> myRequestedRequests =
-            from reqKV in _requestService.GetAllRequests()
+            from reqKV in await _requestService.GetAllRequests()
             where
-                myInvitationsIds.Contains(reqKV.Value.Id) &&
-                reqKV.Value.Status == RequestStatus.PENDING
-            select reqKV.Value;
+                invitationIdsOfUser.Contains(reqKV.Id) &&
+                reqKV.Status == RequestStatus.PENDING
+            select reqKV;
         result.AddRange(myRequestedRequests.ToList());
         return result;
     }

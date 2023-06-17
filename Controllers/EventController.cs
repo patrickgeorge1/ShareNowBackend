@@ -24,10 +24,10 @@ public class EventController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetEventById(string id)
+    public async Task<IActionResult> GetEventById(string id)
     {
         _logger.LogInformation("GetEvent {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
-        Event? @event = _eventService.GetEvent(id);
+        Event? @event = await _eventService.GetEvent(id);
         if (@event != null)
         {
             return Ok(@event);
@@ -37,10 +37,10 @@ public class EventController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAllEvents()
+    public async Task<IActionResult> GetAllEvents()
     {
         _logger.LogInformation("GetAllEvents {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
-        List<Event> events = _eventService.GetAllEvents().Values.ToList();
+        List<Event> events = await _eventService.GetAllEvents();
         return Ok(events);
     }
 

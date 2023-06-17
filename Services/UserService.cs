@@ -30,22 +30,30 @@ public class UserService
         return await _userRepository.AddAsync(user);
     }
 
-    public User? GetUser(string id)
+    public async Task<User?> GetUser(string id)
     {
-        if (_users.TryGetValue(id, out User? user))
+        var query = new User()
         {
-            return user;
-        }
-        else
-        {
-            return null;
-        }
+            Id = id
+        };
+        return await _userRepository.GetAsync(query);
     }
 
-    public Dictionary<string, User> GetAllUsers()
+    public async Task DeleteUser(string id)
     {
-        return _users;
+        var query = new User()
+        {
+            Id = id
+        };
+        await _userRepository.DeleteAsync(query);
     }
+
+    public async Task<List<User>> GetAllUsers()
+    {
+        return await _userRepository.GetAllAsync();
+    }
+
+
 
     public User? DeserializeUser(JsonElement userJson)
     {

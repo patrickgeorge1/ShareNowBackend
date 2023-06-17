@@ -20,9 +20,9 @@ public class EventService
         _eventRepository = er;
     }
 
-    public Dictionary<string, Event> GetAllEvents()
+    public async Task<List<Event>> GetAllEvents()
     {
-        return _events;
+        return await _eventRepository.GetAllAsync();
     }
 
     public async Task<Event> AddEvent(Event toBeCreatedEvent)
@@ -30,16 +30,22 @@ public class EventService
         return await _eventRepository.AddAsync(toBeCreatedEvent);
     }
 
-    public Event? GetEvent(string id)
+    public async Task<Event?> GetEvent(string id)
     {
-        if (_events.TryGetValue(id, out Event? @event))
+        var query = new Event()
         {
-            return @event;
-        }
-        else
+            Id = id
+        };
+        return await _eventRepository.GetAsync(query);
+    }
+
+    public async Task DeleteEvent(string id)
+    {
+        var query = new Event()
         {
-            return null;
-        }
+            Id = id
+        };
+        await _eventRepository.DeleteAsync(query);
     }
 
     public Event? DeserializeEvent(JsonElement eventJson)

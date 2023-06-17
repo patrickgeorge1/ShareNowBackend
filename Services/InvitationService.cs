@@ -23,21 +23,31 @@ public class InvitationService
         return await _invitationRepository.AddAsync(invitation);
     }
 
-    public Invitation? GetInvitation(string id)
+    public async Task<Invitation?> GetInvitation(string id)
     {
-        if (_invitations.TryGetValue(id, out Invitation? invitation))
+        var query = new Invitation()
         {
-            return invitation;
-        }
-        else
-        {
-            return null;
-        }
+            Id = id,
+        };
+        return await _invitationRepository.GetAsync(query);
     }
 
-    public Dictionary<string, Invitation> GetAllInvitations()
+    public async Task<List<Invitation>> GetAllInvitations()
     {
-        return _invitations;
+        return await _invitationRepository.GetAllAsync();
+    }
+    public async Task<List<Invitation>> GetAllInvitationsFromDonorId(string userId)
+    {
+        return await _invitationRepository.GetUsGetAllInvitationsFromDonorIderWhereCity(userId);
+    }
+
+    public async Task DeleteInvitation(string id)
+    {
+        var query = new Invitation()
+        {
+            Id = id
+        };
+        await _invitationRepository.DeleteAsync(query);
     }
 
     public Invitation? DeserializeInvitation(JsonElement userJson)

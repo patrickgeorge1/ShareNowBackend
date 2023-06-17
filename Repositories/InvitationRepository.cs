@@ -23,4 +23,18 @@ public class InvitationRepository
     public async Task DeleteAsync(Invitation entity) => await _repository.DeleteAsync(entity);
 
     public async Task<List<Invitation>> QueryRecordsAsync(Query query) => await _repository.QueryRecordsAsync<Invitation>(query);
+
+    public async Task<List<Invitation>> GetUsGetAllInvitationsFromDonorIderWhereCity(string donorId)
+    {
+        var invitationsWithDonorIds = new List<Invitation>()
+        {
+            new()
+            {
+                DonatorId=donorId
+            }
+        };
+
+        var query = _repository._firestoreDb.Collection(Collection.Invitations.ToString()).WhereIn(nameof(Invitation.DonatorId), invitationsWithDonorIds);
+        return await this.QueryRecordsAsync(query);
+    }
 }

@@ -28,10 +28,10 @@ public class UserController : ControllerBase
 
     // GET: api/User/5
     [HttpGet("{id}")]
-    public IActionResult GetUserById(string id)
+    public async Task<IActionResult> GetUserById(string id)
     {
         _logger.LogInformation("GetUser {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
-        User? user = _userService.GetUser(id);
+        User? user = await _userService.GetUser(id);
         if (user != null)
         {
             return Ok(user);
@@ -41,10 +41,10 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAllUsers(long id)
+    public async Task<IActionResult> GetAllUsers(long id)
     {
         _logger.LogInformation("GetAllUsers {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
-        List<User> users = _userService.GetAllUsers().Values.ToList();
+        List<User> users = await _userService.GetAllUsers();
         return Ok(users);
     }
 

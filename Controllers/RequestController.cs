@@ -30,10 +30,10 @@ public class RequestController : ControllerBase
 
     // GET: api/Request/5
     [HttpGet("{id}")]
-    public IActionResult GetRequestById(string id)
+    public async Task<IActionResult> GetRequestById(string id)
     {
         _logger.LogInformation("GetRequest {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
-        Request? request = _requestService.GetRequest(id);
+        Request? request = await _requestService.GetRequest(id);
         if (request != null)
         {
             return Ok(request);
@@ -43,37 +43,37 @@ public class RequestController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAllRequests(long userId)
+    public async Task<IActionResult> GetAllRequests(long userId)
     {
         _logger.LogInformation("GetAllRequests {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
-        List<Request> requests = _requestService.GetAllRequests().Values.ToList();
+        List<Request> requests = await _requestService.GetAllRequests();
         return Ok(requests);
     }
 
     // current user accepted requests
-    [HttpGet("accepted/{userId:long}")]
-    public IActionResult GetApprovedEventsByUserId(string userId)
+    [HttpGet("accepted/{userId}")]
+    public async Task<IActionResult> GetApprovedEventsByUserId(string userId)
     {
         _logger.LogInformation("GetAcceptedRequests {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
-        List<Request> acceptedRequests = _requestService.GetAcceptedRequests(userId);
+        List<Request> acceptedRequests = await _requestService.GetAcceptedRequests(userId);
         return Ok(acceptedRequests);
     }
 
     // current user pending requests
-    [HttpGet("pending/{userId:long}")]
-    public IActionResult GetPendingEventsByUserId(string userId)
+    [HttpGet("pending/{userId}")]
+    public async Task<IActionResult> GetPendingEventsByUserId(string userId)
     {
         _logger.LogInformation("GetPendingRequests {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
-        List<Request> pendingRequests = _requestService.GetPendingRequests(userId);
+        List<Request> pendingRequests = await _requestService.GetPendingRequests(userId);
         return Ok(pendingRequests);
     }
 
     // current user requests from other users
-    [HttpGet("requested/{userId:long}")]
-    public IActionResult GetRequestedEventsByUserId(string userId)
+    [HttpGet("requested/{userId}")]
+    public async Task<IActionResult> GetRequestedEventsByUserId(string userId)
     {
         _logger.LogInformation("GetRequestedRequests {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
-        List<Request> requestedRequests = _service.GetRequestedRequests(userId);
+        List<Request> requestedRequests = await _service.GetRequestedRequests(userId);
         return Ok(requestedRequests);
     }
 
@@ -91,11 +91,11 @@ public class RequestController : ControllerBase
     }
 
     [HttpPost]
-    [Route("accept/{id:long}")]
-    public IActionResult AcceptRequest(string id)
+    [Route("accept/{id}")]
+    public async Task<IActionResult> AcceptRequest(string id)
     {
         _logger.LogInformation("AcceptRequest {PlaceHolderName:MMMM dd, yyyy}", DateTimeOffset.UtcNow);
-        Request? request = _requestService.AcceptRequest(id);
+        Request? request = await _requestService.AcceptRequest(id);
         if (request != null)
         {
             return Ok(request);

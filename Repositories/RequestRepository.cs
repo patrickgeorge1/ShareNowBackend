@@ -23,4 +23,19 @@ public class RequestRepository
     public async Task DeleteAsync(Request entity) => await _repository.DeleteAsync(entity);
 
     public async Task<List<Request>> QueryRecordsAsync(Query query) => await _repository.QueryRecordsAsync<Request>(query);
+
+    // This is specific to users.
+    public async Task<List<Request>> GetRequestsByStatus(RequestStatus status)
+    {
+        var requestsWithStatuses = new List<Request>()
+        {
+            new()
+            {
+                Status=status
+            }
+        };
+
+        var query = _repository._firestoreDb.Collection(Collection.Requests.ToString()).WhereIn(nameof(Request.Status), requestsWithStatuses);
+        return await this.QueryRecordsAsync(query);
+    }
 }
